@@ -1,4 +1,4 @@
-- 1)   Скопируй проект 
+1. Скопируй проект 
 
 ```
 https://github.com/V-Kozintsev/file_2_report.git
