@@ -91,5 +91,17 @@ $app = require_once __DIR__.'/bootstrap/app.php';
 mysql -u root -e "SHOW DATABASES;"
 ```
 
+- Дамп БД
+```
+mysqldump -u DB_USERNAME -p DB_DATABASE > dump.sql
+```
+
+Не забыть очистить кеш
+
+Выполни в терминале:
+
+php artisan config:cache
+php artisan route:cache
+php artisan config:clear
 
 
