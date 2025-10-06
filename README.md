@@ -67,7 +67,7 @@ php artisan migrate
 php artisan storage:link
 ```
 
-10. - Перезагрузка виртуалки
+10. - Перезагрузи виртуалки
 
 ```
 vagrant reload --provision
