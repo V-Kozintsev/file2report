@@ -91,24 +91,23 @@ class FileUploadController extends Controller
                 $kol = $this->parseQuantity($row[$idxKol] ?? '0');
                 $virRaw = $row[$idxVir] ?? '0';
                 $virNum = $this->parseRevenueForSum($virRaw);
-                $vir = number_format($virNum, 0, '', ' ');
 
                 $filteredData[] = [
                     'Номенклатура' => $name,
-                    'Количество' => $this->formatQuantity($kol),
-                    'Выручка' => $vir,
+                    'Количество' => $kol, // без форматирования
+                    'Выручка' => $virNum, // без форматирования, только число!
                 ];
 
                 $sumKol += $kol;
-                $sumVir += $this->parseRevenueForSum($virRaw);
+                $sumVir += $virNum;
             }
         }
 
         // Итоговое значение с форматированием количества и без изменения выручки
         $filteredData[] = [
-            'Номенклатура' => 'Итого',
-            'Количество' => $this->formatQuantity($sumKol),
-            'Выручка' => number_format($sumVir, 0, '', ' '), // форматируем сумму выручки с копейками
+            'Нomenклатура' => 'Итого',
+            'Количество' => '=SUM(B2:B' . (count($filteredData)+1) . ')', // если нужно посчитать сумму количества
+            'Выручка'    => '=SUM(C2:C' . (count($filteredData)+1) . ')', // если колонка C — "Выручка"
         ];
 
         $newSpreadsheet = new Spreadsheet();
