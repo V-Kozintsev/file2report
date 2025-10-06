@@ -1,0 +1,43 @@
+---
+ip: "192.168.10.10"
+memory: 2048
+cpus: 2
+provider: virtualbox
+name: file2report
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+  - ~/.ssh/id_rsa
+
+folders:
+  - map: ./
+    to: /home/vagrant/code/file2report
+
+sites:
+  - map: file2report.test
+    to: /home/vagrant/code/file2report/public
+
+databases:
+  - file2report
+
+features:
+  - mysql: true
+
+services:
+  - enabled:
+      - "mysql"
+
+#ports:
+#  - send: 33060 # MySQL/MariaDB
+#    to: 3306
+#  - send: 4040
+#    to: 4040
+#  - send: 54320 # PostgreSQL
+#    to: 5432
+#  - send: 8025 # Mailpit
+#    to: 8025
+#  - send: 9600
+#    to: 9600
+#  - send: 27017
+#    to: 27017
+#
