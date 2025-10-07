@@ -3,7 +3,7 @@ ip: "192.168.10.10"
 memory: 2048
 cpus: 2
 provider: virtualbox
-name: file2report
+name: easy2report.ru
 authorize: ~/.ssh/id_rsa.pub
 
 keys:
@@ -11,14 +11,14 @@ keys:
 
 folders:
   - map: ./
-    to: /home/vagrant/code/file2report
+    to: /home/vagrant/code/
 
 sites:
-  - map: file2report.test
-    to: /home/vagrant/code/file2report/public
+  - map: easy2report.test
+    to: /home/vagrant/code/public
 
 databases:
-  - file2report
+  - easy2report
 
 features:
   - mysql: true
