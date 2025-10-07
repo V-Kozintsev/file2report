@@ -8,4 +8,8 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        host: '0.0.0.0', // слушать на всех интерфейсах
+        port: 5173       // произвольный порт
+    }
 });
