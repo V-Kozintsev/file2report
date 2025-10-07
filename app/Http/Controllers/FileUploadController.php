@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class FileUploadController extends Controller
 {
@@ -114,6 +115,31 @@ class FileUploadController extends Controller
         $newSheet = $newSpreadsheet->getActiveSheet();
         $newSheet->fromArray(array_keys($filteredData[0]), null, 'A1');
         $newSheet->fromArray(array_map('array_values', $filteredData), null, 'A2');
+
+        $newSheet->getColumnDimension('A')->setAutoSize(true);
+
+        $newSheet->getStyle('A1:C1')->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => '6D542C'],
+            ],
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'F7F2DD']
+            ]
+        ]);
+        // Строка итогов — последняя строка (после всех данных)
+        $totalRow = count($filteredData) + 1;
+        $newSheet->getStyle("A{$totalRow}:C{$totalRow}")->applyFromArray([
+            'font' => [
+                'bold' => true,
+                'color' => ['rgb' => '6D542C'],
+            ],
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'F7F2DD']
+            ]
+        ]);
 
         $filteredFileName = 'filtered_result_' . time() . '.xlsx';
         $filteredFilePath = storage_path('app/uploads/' . $filteredFileName);
