@@ -43,7 +43,7 @@ npm install
 5. - Отредактируй файл `hosts` на уровне системы, например, в Windows по пути `c:\windows\system32\drivers\etc\hosts`. Добавь строку:
 
 ```
-192.168.10.10 http://easy2report.test
+192.168.10.10 easy2report.test
 ```
 
 6. - Запускаем виртуалку:
