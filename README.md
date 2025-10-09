@@ -133,5 +133,12 @@ php artisan route:cache
 php artisan config:clear
 ```
 
+## Команды vagrant
+
+- остановка виртуалки 
+
+```
+vagrant halt
+```
 
 
