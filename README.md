@@ -94,11 +94,19 @@ php artisan migrate
 php artisan storage:link
 ```
 
-10. - Перезагрузи виртуалки
+10. - Билдим проет
+ 
+```
+npm run build
+```
+
+11. - Перезагрузи виртуалки
 
 ```
 vagrant reload --provision
 ```
+
+### ПРОЕКТ ЗАПУЩЕН!
 
 - Проверка бд в директории `code`(через SSH на виртуалке `vagrant ssh`):
 
