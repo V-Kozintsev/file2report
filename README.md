@@ -36,9 +36,9 @@ composer install
 npm install
 ```
 
-3. - Скопируйте файл `Homestead.yaml.example` и переименуйте в `Homestead.yaml`. Отредактируй.
+3. - Скопируй файл `Homestead.yaml.example` и переименуй в `Homestead.yaml`. Отредактируй.
 
-4. - Скопируйте файл `.env.example` и переименуйте в `.env`. Отредактируй.
+4. - Скопируй файл `.env.example` и переименуй в `.env`. Отредактируй.
 
 5. - Отредактируй файл `hosts` на уровне системы, например, в Windows по пути `c:\windows\system32\drivers\etc\hosts`. Добавь строку:
 
