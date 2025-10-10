@@ -1,5 +1,7 @@
 # Основные шаги для запуска Laravel-проекта на Homestead:
 
+## [Перейти на лендинг](https://v-kozintsev.github.io/home_page_-Hilton-/)
+
 ## Установить зависимости на своей машине:
 
 - [VirtualBox](https://www.virtualbox.org/) — это наиболее часто используемый провайдер виртуальных машин.
