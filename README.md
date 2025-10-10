@@ -1,6 +1,6 @@
 # Основные шаги для запуска Laravel-проекта на Homestead:
 
-## [Перейти на лендинг](https://v-kozintsev.github.io/home_page_-Hilton-/)
+## [Перейти на сайт](https://easy2report.ru/)
 
 ## Установить зависимости на своей машине:
 
