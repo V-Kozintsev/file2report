@@ -17,14 +17,14 @@
                 <nav class="flex items-center gap-3">
                     @auth
                         <a href="{{ url('/dashboard') }}" class="inline-flex items-center rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-gray-800">
-                            Dashboard
+                            Панель управления
                         </a>
                     @else
                         <a href="{{ route('login') }}" class="text-sm font-medium text-gray-700 hover:text-gray-900">
-                            Log in
+                            Войти
                         </a>
                         <a href="{{ route('register') }}" class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-500">
-                            Register
+                            Регистрация
                         </a>
                     @endauth
                 </nav>
@@ -49,7 +49,7 @@
                         </a>
                     @else
                         <a href="{{ route('register') }}" class="inline-flex items-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500">
-                            Зарегистрироваться
+                            Регистрация
                         </a>
                         <a href="{{ route('login') }}" class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">
                             Войти
