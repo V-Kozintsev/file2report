@@ -15,6 +15,9 @@ Route::middleware(['auth','verified'])->group(function () {
     Route::get('/reports', [FileUploadController::class, 'index'])->name('reports.index');
     Route::post('/reports/upload', [FileUploadController::class, 'upload'])->name('reports.upload');
     Route::get('/reports/download/{filename}', [FileUploadController::class, 'downloadFiltered'])->name('reports.download');
+
+    // Игра
+    Route::get('/game', fn () => view('game.index')) -> name('game');
 });
 
 Route::middleware('auth')->group(function () {

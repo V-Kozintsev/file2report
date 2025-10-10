@@ -138,10 +138,16 @@ php artisan config:clear
 
 ## Команды vagrant
 
-- остановка виртуалки 
+- Остановка виртуалки 
 
 ```
 vagrant halt
+```
+
+- Перезагрузка виртуалки
+
+```
+vagrant reload --provision
 ```
 
 
