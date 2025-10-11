@@ -1,10 +1,12 @@
 export default () => ({
-  open: false,
-  init() {
-    console.log('Alpine компонент main инициализирован');
-  },
-  toggle() {
-    this.open = !this.open;
-    console.log('toggle called, open =', this.open);
-  }
+    open:false,
+    toggle(){
+        this.open = !this.open
+        if(this.open){
+            this.$nextTick(()=>{this.drawCanwas()})
+        }
+    },
+    drawCanwas(){
+        console.log('показать модуль!');
+    }
 });
