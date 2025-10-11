@@ -114,9 +114,6 @@ php artisan config:cache
 ```
 php artisan route:cache
 ```
-```
-php artisan config:clear
-```
 
 ## Команды vagrant
 
