@@ -37,78 +37,58 @@
 https://github.com/V-Kozintsev/file_2_report.git
 ```
 2.  Установи зависимости проекта командой из корневой директории проекта:
-
 ```
 composer install
 ```
-
 ```
 npm install
 ```
-
 3.  Скопируй файл `Homestead.yaml.example` и переименуй в `Homestead.yaml`. Отредактируй.
-
 4.  Скопируй файл `.env.example` и переименуй в `.env`. Отредактируй.
-
 5.  Отредактируй файл `hosts` на уровне системы, например, в Windows по пути `c:\windows\system32\drivers\etc\hosts`. Добавь строку:
-
 ```
 192.168.10.10 easy2report.test
 ```
-
 6. Запускаем виртуалку:
-
 ```
 vagrant up
 ```
-
 ## Если же появляется ошибка или предупреждение с текстом типа `"Repository ... changed its 'Label' value"` ,выполни следующее:
 
 1. Зайти внутрь виртуальной машины через SSH (`vagrant ssh`),что-бы выйти из виртуалки, то команда(`exit`)
-
 2. Выполни команду
 ```
 sudo apt-get update --allow-releaseinfo-change
 ```
-
 3. Перезапусти виртуалку:
-
 ```
 vagrant reload --provision
 ```
-
 7. Сгенерируй ключ приложения в директории `code`(через SSH на виртуалке `vagrant ssh`):
-
 ```
 php artisan key:generate
 ```
-
 8. Выполни миграции базы данных:
-
 ```
 php artisan migrate
 ```
-
 9. Создай символическую ссылку для хранения файлов:
-
 ```
 php artisan storage:link
 ```
-
 10. Билдим проект
- 
 ```
 npm run build
 ```
-
 11. Перезагрузи виртуалки
-
 ```
 vagrant reload --provision
 ```
-
 ⚠️ Режим разработки
 Для запуска проекта с динамическим обновлением файлов выполните:
+```
+npm run dev
+```
 
 ### ПРОЕКТ ЗАПУЩЕН!
 
