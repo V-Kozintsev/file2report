@@ -89,16 +89,12 @@ vagrant reload --provision
 npm run dev
 ```
 
-### ПРОЕКТ ЗАПУЩЕН!
-
-
+### Команды для работы с бд
 
 - Проверка бд в директории `code`(через SSH на виртуалке `vagrant ssh`):
-
 ```
 mysql -u root -e "SHOW DATABASES;"
 ```
-
 - Дамп БД
 ```
 mysqldump -u DB_USERNAME -p DB_DATABASE > dump.sql
