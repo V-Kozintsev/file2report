@@ -68,11 +68,11 @@ vagrant reload --provision
 ```
 php artisan key:generate
 ```
-8. Выполни миграции базы данных в директории `code`(через SSH на виртуалке `vagrant ssh`)::
+8. Выполни миграции базы данных в директории `code`(через SSH на виртуалке `vagrant ssh`):
 ```
 php artisan migrate
 ```
-9. Создай символическую ссылку для хранения файлов в директории `code`(через SSH на виртуалке `vagrant ssh`)::
+9. Создай символическую ссылку для хранения файлов в директории `code`(через SSH на виртуалке `vagrant ssh`):
 ```
 php artisan storage:link
 ```
@@ -106,16 +106,16 @@ mysqldump -u DB_USERNAME -p DB_DATABASE > dump.sql
 
 ## Очистка кеша
 
-- Выполни в терминале:
+- Выполните команду `vagrant ssh` подключения к виртуальной машине через SSH:
 
 ```
-php artisan config:cache в директории `code`(через SSH на виртуалке `vagrant ssh`):
+php artisan config:cache 
 ```
 ```
-php artisan route:cache в директории `code`(через SSH на виртуалке `vagrant ssh`):
+php artisan route:cache
 ```
 ```
-php artisan config:clear в директории `code`(через SSH на виртуалке `vagrant ssh`):
+php artisan config:clear
 ```
 
 ## Команды vagrant
