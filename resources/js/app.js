@@ -1,4 +1,6 @@
 import './bootstrap';
+import './game/main'
+
 
 import Alpine from 'alpinejs';
 
