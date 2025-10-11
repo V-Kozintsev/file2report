@@ -89,7 +89,7 @@ vagrant reload --provision
 npm run dev
 ```
 
-### Команды для работы с бд
+### Команды для работы с бд:
 
 - Проверка бд в директории `code`(через SSH на виртуалке `vagrant ssh`):
 ```
@@ -100,7 +100,7 @@ mysql -u root -e "SHOW DATABASES;"
 mysqldump -u DB_USERNAME -p DB_DATABASE > dump.sql
 ```
 
-## Очистка кеша
+## Очистка кеша:
 
 - Выполните команду `vagrant ssh` подключения к виртуальной машине через SSH:
 
@@ -111,7 +111,7 @@ php artisan config:cache
 php artisan route:cache
 ```
 
-## Команды vagrant
+## Команды vagrant:
 
 - Запуск виртуалки
 ```
