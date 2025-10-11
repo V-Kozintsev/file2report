@@ -68,11 +68,11 @@ vagrant reload --provision
 ```
 php artisan key:generate
 ```
-8. Выполни миграции базы данных:
+8. Выполни миграции базы данных в директории `code`(через SSH на виртуалке `vagrant ssh`)::
 ```
 php artisan migrate
 ```
-9. Создай символическую ссылку для хранения файлов:
+9. Создай символическую ссылку для хранения файлов в директории `code`(через SSH на виртуалке `vagrant ssh`)::
 ```
 php artisan storage:link
 ```
@@ -84,8 +84,7 @@ npm run build
 ```
 vagrant reload --provision
 ```
-⚠️ Режим разработки
-Для запуска проекта с динамическим обновлением файлов выполните:
+⚠️ Для запуска проекта с динамическим обновлением файлов выполните:
 ```
 npm run dev
 ```
@@ -110,13 +109,13 @@ mysqldump -u DB_USERNAME -p DB_DATABASE > dump.sql
 - Выполни в терминале:
 
 ```
-php artisan config:cache
+php artisan config:cache в директории `code`(через SSH на виртуалке `vagrant ssh`):
 ```
 ```
-php artisan route:cache
+php artisan route:cache в директории `code`(через SSH на виртуалке `vagrant ssh`):
 ```
 ```
-php artisan config:clear
+php artisan config:clear в директории `code`(через SSH на виртуалке `vagrant ssh`):
 ```
 
 ## Команды vagrant
