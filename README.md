@@ -95,7 +95,7 @@ npm run dev
 ```
 mysql -u root -e "SHOW DATABASES;"
 ```
-- Дамп БД
+- Дамп файла БД
 ```
 mysqldump -u DB_USERNAME -p DB_DATABASE > dump.sql
 ```
