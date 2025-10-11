@@ -7,6 +7,12 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.js'],
             refresh: true,
         }),
+        {
+            name: 'startup-message',
+            configureServer() {
+              console.log('Vite dev сервер запущен!');
+            },
+        },
     ],
     server: {
         host: '127.0.0.1',
