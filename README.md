@@ -122,7 +122,7 @@ php artisan config:clear
 
 - Запуск виртуалки
 ```
-vagrant updat
+vagrant up
 ```
 - Остановка виртуалки 
 ```
