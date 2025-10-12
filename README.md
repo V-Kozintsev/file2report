@@ -107,6 +107,9 @@ mysqldump -u DB_USERNAME -p DB_DATABASE > dump.sql
 php artisan config:cache 
 ```
 ```
+php artisan route:clear
+```
+```
 php artisan route:cache
 ```
 

@@ -18,6 +18,7 @@ Route::middleware(['auth','verified'])->group(function () {
 
     // Игра
     Route::get('/game', fn () => view('game.index')) -> name('game');
+    Route::get('/game/game-fullscreen', fn () => view('game.game-fullscreen')) -> name('game.fullscreen');
 });
 
 Route::middleware('auth')->group(function () {

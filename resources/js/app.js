@@ -1,9 +1,11 @@
 import './bootstrap';
-import main from './game/gameModal';
+import gameFullScreen from './game/gameModal';
 
 import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;
-Alpine.data('gameClick', main);
+
+//модальное окно игры
+Alpine.data('gameModal', gameFullScreen);
 
 Alpine.start();
