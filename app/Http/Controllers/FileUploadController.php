@@ -165,9 +165,9 @@ class FileUploadController extends Controller
     $dataCount = count($filteredData);
         // Итоговая строка
         $filteredData[] = [
-    'Номенклатура' => 'Итого',
-    'Количество'   => "=SUM(B2:B" . ($dataCount + 1) . ")",
-    'Выручка'      => "=SUM(C2:C" . ($dataCount + 1) . ")"
+            'Номенклатура' => 'Итого',
+            'Количество'   => "=SUM(B2:B" . ($dataCount + 1) . ")",
+            'Выручка'      => "=SUM(C2:C" . ($dataCount + 1) . ")"
         ];
 
         $newSpreadsheet = new Spreadsheet();
