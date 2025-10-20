@@ -15,6 +15,29 @@ class FileUploadController extends Controller
         return view('reports.index');
     }
 
+    private function findHeaderRowPattern(array $data, array $patterns)
+    {
+        foreach ($data as $i => $row) {
+            $normalizedRow = array_map(function($v) {
+                return mb_strtolower(trim(preg_replace('/[\s\p{Cc}\p{Cf}]+/u', ' ', $v)));
+            }, $row);
+
+            $foundHeaders = [];
+            foreach ($patterns as $key => $pattern) {
+                foreach ($normalizedRow as $cell) {
+                    if (preg_match($pattern, $cell)) {
+                        $foundHeaders[$key] = true;
+                        break;
+                    }
+                }
+            }
+            if (count($foundHeaders) === count($patterns)) {
+                return [$i, $row];
+            }
+        }
+        return [-1, []];
+    }
+
     // Парсим число для Количества, округляя до целого (убирая дробную часть)
     private function parseQuantity($str)
     {
@@ -45,7 +68,7 @@ class FileUploadController extends Controller
         return (float)$str;
     }
 
-    public function upload(Request $request)
+   public function upload(Request $request)
     {
         $this->cleanOldFiles();
 
@@ -62,53 +85,89 @@ class FileUploadController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
         $data = $sheet->toArray();
 
-        $nomenklaturaIndex = -1;
-        $colsIndex = -1;
-        foreach ($data as $i => $row) {
-            if (in_array('Номенклатура', $row)) $nomenklaturaIndex = $i;
-            if (in_array('Количество', $row) && in_array('Выручка', $row)) $colsIndex = $i;
+        $patterns = [
+            'Номенклатура' => '/номенклатур[а-я]*/ui',
+            'Количество'   => '/количеств[о-я]*|кол-во/ui',
+            'Выручка'      => '/выручк[а-я]*/ui',
+        ];
+
+        // 1. Сначала пробуем универсальный вариант (единая строка-заголовок)
+        list($headerIndex, $headerRow) = $this->findHeaderRowPattern($data, $patterns);
+        $format = 'unified';
+
+        if ($headerIndex !== -1) {
+            // Получение индексов колонок
+            $indexes = [];
+            $normalizedHeaderRow = array_map(function($v) {
+                return mb_strtolower(trim(preg_replace('/[\s\p{Cc}\p{Cf}]+/u', ' ', $v)));
+            }, $headerRow);
+            foreach ($patterns as $key => $pattern) {
+                foreach ($normalizedHeaderRow as $idx => $cell) {
+                    if (preg_match($pattern, $cell)) {
+                        $indexes[$key] = $idx;
+                        break;
+                    }
+                }
+            }
+            $startDataIndex = $headerIndex + 1;
+            $dataRows = array_slice($data, $startDataIndex);
+
+        } else {
+            // 2. Старый формат: по отдельным строкам "Номенклатура" + "Количество" и "Выручка"
+            $nomenklaturaIndex = -1;
+            $colsIndex = -1;
+            foreach ($data as $i => $row) {
+                if (in_array('Номенклатура', $row)) $nomenklaturaIndex = $i;
+                if (in_array('Количество', $row) && in_array('Выручка', $row)) $colsIndex = $i;
+            }
+            if ($nomenklaturaIndex === -1 || $colsIndex === -1) {
+                return back()->withErrors('Не найдены необходимые строки');
+            }
+            $nomenklaturaRow = $data[$nomenklaturaIndex];
+            $colsRow = $data[$colsIndex];
+            $indexes = [];
+            $indexes['Номенклатура'] = array_search('Номенклатура', $nomenklaturaRow);
+            $indexes['Количество']   = array_search('Количество', $colsRow);
+            $indexes['Выручка']      = array_search('Выручка', $colsRow);
+
+            $startDataIndex = max($nomenklaturaIndex, $colsIndex) + 1;
+            $dataRows = array_slice($data, $startDataIndex);
+            $format = 'split';
         }
-        if ($nomenklaturaIndex === -1 || $colsIndex === -1) {
-            return back()->withErrors('Не найдены необходимые строки');
-        }
 
-        $nomenklaturaRow = $data[$nomenklaturaIndex];
-        $colsRow = $data[$colsIndex];
-
-        $idxNomenklatura = array_search('Номенклатура', $nomenklaturaRow);
-        $idxKol = array_search('Количество', $colsRow);
-        $idxVir = array_search('Выручка', $colsRow);
-
-        $startDataIndex = max($nomenklaturaIndex, $colsIndex) + 1;
-        $dataRows = array_slice($data, $startDataIndex);
-
+        // --- Обработка данных ---
         $filteredData = [];
         $sumKol = 0;
         $sumVir = 0.0;
 
         foreach ($dataRows as $row) {
-            $name = $row[$idxNomenklatura] ?? '';
-            if (!empty($name)) {
-                $kol = $this->parseQuantity($row[$idxKol] ?? '0');
-                $virRaw = $row[$idxVir] ?? '0';
-                $virNum = $this->parseRevenueForSum($virRaw);
+    $nameRaw = $row[$indexes['Номенклатура']] ?? '';
+    $name = trim($nameRaw);
+    if (
+        empty($name) ||
+        mb_strtolower($name) === 'итого' ||
+        $name === '#NULL!' ||
+        mb_strpos($name, '#') === 0 ||
+        preg_match('/^=|\+/', $name)
+    ) {
+        continue;
+    }
+    $kol = $this->parseQuantity($row[$indexes['Количество']] ?? '0');
+    $virRaw = $row[$indexes['Выручка']] ?? '0';
+    $virNum = $this->parseRevenueForSum($virRaw);
 
-                $filteredData[] = [
-                    'Номенклатура' => $name,
-                    'Количество' => $kol, // без форматирования
-                    'Выручка' => $virNum, // без форматирования, только число!
-                ];
-
-                $sumKol += $kol;
-                $sumVir += $virNum;
-            }
-        }
-
-        // Итоговое значение с форматированием количества и без изменения выручки
+    $filteredData[] = [
+        'Номенклатура' => $name,
+        'Количество' => $kol,
+        'Выручка' => $virNum,
+    ];
+}
+    $dataCount = count($filteredData);
+        // Итоговая строка
         $filteredData[] = [
-            'Нomenклатура' => 'Итого',
-            'Количество' => '=SUM(B2:B' . (count($filteredData)+1) . ')', // если нужно посчитать сумму количества
-            'Выручка'    => '=SUM(C2:C' . (count($filteredData)+1) . ')', // если колонка C — "Выручка"
+    'Номенклатура' => 'Итого',
+    'Количество'   => "=SUM(B2:B" . ($dataCount + 1) . ")",
+    'Выручка'      => "=SUM(C2:C" . ($dataCount + 1) . ")"
         ];
 
         $newSpreadsheet = new Spreadsheet();
@@ -128,7 +187,6 @@ class FileUploadController extends Controller
                 'startColor' => ['rgb' => 'F7F2DD']
             ]
         ]);
-        // Строка итогов — последняя строка (после всех данных)
         $totalRow = count($filteredData) + 1;
         $newSheet->getStyle("A{$totalRow}:C{$totalRow}")->applyFromArray([
             'font' => [
@@ -165,14 +223,12 @@ class FileUploadController extends Controller
         return response()->download($file);
     }
 
-    // Метод очистки старых файлов в папке 'uploads'
+    // Метод очистки старых файлов
     public function cleanOldFiles()
     {
         $files = \Storage::files('uploads');
         $now = time();
-
         foreach ($files as $file) {
-            // Удаляем файлы старше 24 часов (86400 секунд)
             if ($now - \Storage::lastModified($file) > 86400) {
                 \Storage::delete($file);
             }
